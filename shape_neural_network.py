@@ -20,6 +20,7 @@ class Feedforward(torch.nn.Module):
         self.input_size = input_size
         self.hidden_size  = hidden_size
         self.fc1 = torch.nn.Linear(self.input_size, self.hidden_size)
+        self.fc15 = torch.nn.Linear(self.hidden_size, self.hidden_size)
         self.tanh = torch.nn.Tanh()
         self.relu = torch.nn.ReLU()
         # Defining the output size of the output 
@@ -27,8 +28,9 @@ class Feedforward(torch.nn.Module):
         self.sigmoid = torch.nn.Sigmoid()
              
     def forward(self, x):
-        hidden = self.fc1(x)
-        relu = self.tanh(hidden)
+        hidden1 = self.fc1(x)
+        hidden2 = self.fc15(hidden1)
+        relu = self.tanh(hidden2)
         output = self.fc2(relu)
         # output = self.sigmoid(output)
         return output

@@ -1,4 +1,3 @@
-from math import cos
 import numpy as np
 from typing import List
 
