@@ -1,5 +1,5 @@
-from register_shape_data import RegisterShapeData
-from rotate_shape import rotate_shape
+from shape_nn.register_shape_data import RegisterShapeData
+from shape_nn.rotate_shape import rotate_shape
 import matplotlib.pyplot as plt
 
 shark_data = RegisterShapeData(path_to_shape_data='shape_landmark_data\data\shark.txt')

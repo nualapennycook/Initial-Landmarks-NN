@@ -1,49 +1,18 @@
 import torch
-from register_shape_data import RegisterShapeData
-from rotate_shape import rotate_shape
+from shape_nn.register_shape_data import RegisterShapeData
+from shape_nn.rotate_shape import rotate_shape
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
-
-class Feedforward(torch.nn.Module):
-    '''
-    This class defines the basic structure of the pytorch neural network.
-    This feed forward neural network has one hidden layer.
-    This class is taken and modified from: https://medium.com/biaslyai/pytorch-introduction-to-neural-network-feedforward-neural-network-model-e7231cff47cb.
-    '''
-
-    def __init__(self, input_size: int, hidden_size: int):
-        '''
-        :param input_size: number of neurons of the input layer.
-        :param hidden_size: number of neurons in the hidden layer.
-        '''
-        super(Feedforward, self).__init__()
-        self.input_size = input_size
-        self.hidden_size  = hidden_size
-        self.fc1 = torch.nn.Linear(self.input_size, self.hidden_size)
-        self.fc15 = torch.nn.Linear(self.hidden_size, self.hidden_size)
-        self.tanh = torch.nn.Tanh()
-        self.relu = torch.nn.ReLU()
-        # Defining the output size of the output 
-        self.fc2 = torch.nn.Linear(self.hidden_size, 2)
-        self.sigmoid = torch.nn.Sigmoid()
-             
-    def forward(self, x):
-        hidden1 = self.fc1(x)
-        hidden2 = self.fc15(hidden1)
-        hidden3 = self.fc15(hidden2)
-        relu = self.tanh(hidden3)
-        output = self.fc2(relu)
-        # output = self.sigmoid(output)
-        return output
+from shape_nn.feed_forward_nn import Feedforward
 
 # Firstly need to extract the training data from the text files
 # We train the network for a set shape to another set shape
-input_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/train_data/cat.txt')
+input_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/train_data/ellipse2.txt')
 input_data.extract_shape_data()
 input_data.centre_shape()
 input_data.scale_shape()
 
-set_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/train_data/plane.txt')
+set_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/train_data/ellipse2.txt')
 set_data.extract_shape_data()
 set_data.centre_shape()
 set_data.scale_shape()
@@ -59,7 +28,7 @@ fig, ax = plt.subplots()
 
 # Reorgainising/reshaping the data into pairs
 x_data = [[x_data[0][i], x_data[1][i]] for i in range(len(x_data[0]))]
-y_data = [[set_data.shape_data[0][i], set_data.shape_data[1][i]] for i in range(len(set_data.shape_data[0]))]
+y_data = [[1.1*set_data.shape_data[0][i], 1.1*set_data.shape_data[1][i]] for i in range(len(set_data.shape_data[0]))]
 
 # Reducing the number of landmarks
 skip_step = 10
@@ -144,9 +113,9 @@ def animate_shape(i):
 
 plt.plot(reshaped_y_pred[0], reshaped_y_pred[1], marker='x')
 plt.plot(plotting_x_data[0], plotting_x_data[1], marker='x')
-# plt.plot(plotting_y_data[0], plotting_y_data[1], marker='x')
+plt.plot(plotting_y_data[0], plotting_y_data[1], marker='x')
 for i in range(len(reshaped_y_pred[0])):
-    plt.plot([plotting_x_data[0][i], reshaped_y_pred[0][i]], [plotting_x_data[1][i], reshaped_y_pred[1][i]], color='y')
-plt.xlim([-60, 70])
-plt.ylim([-60, 70])
+    plt.plot([plotting_y_data[0][i], reshaped_y_pred[0][i]], [plotting_y_data[1][i], reshaped_y_pred[1][i]], color='y')
+# plt.xlim([-60, 70])
+# plt.ylim([-60, 70])
 plt.show()

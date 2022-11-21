@@ -1,0 +1,14 @@
+setup.py
+demo/__init__.py
+demo/cat_to_plane.py
+demo/cat_to_plane_anim.py
+demo/elipse_to_elipse.py
+src/__init__.py
+src/feed_forward_nn.py
+src/register_shape_data.py
+src/rotate_shape.py
+src/training_feed_forward_nn.py
+src.egg-info/PKG-INFO
+src.egg-info/SOURCES.txt
+src.egg-info/dependency_links.txt
+src.egg-info/top_level.txt
