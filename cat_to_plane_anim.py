@@ -4,6 +4,10 @@ from shape_nn.training_feed_forward_nn import train_network
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
 
+'''
+Demo to animate the cat to plane registration.
+'''
+
 epoch = 1000
 
 def main():
