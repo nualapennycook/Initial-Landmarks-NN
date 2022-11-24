@@ -56,7 +56,7 @@ def main():
 
     writervideo = PillowWriter(fps = 10)
         
-    anim.save('cat_to_plane.gif', 
+    anim.save('animations/cat_to_plane.gif', 
             writer = writervideo)
 
 if __name__ == '__main__':
