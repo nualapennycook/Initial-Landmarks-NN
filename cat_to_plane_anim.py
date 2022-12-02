@@ -46,6 +46,7 @@ def main():
     ax.plot(plotting_x_data[0], plotting_x_data[1], marker = 'x')
     ax.plot(plotting_y_data[0], plotting_y_data[1], marker = 'x')
     line, = ax.plot(plotting_x_data[0], plotting_x_data[1])
+    ax.legend(['initial shape', 'target shape', 'result of NN'])
 
     def animate_shape(i):
         line.set_data(warped_x_data[i][0], warped_x_data[i][1])
