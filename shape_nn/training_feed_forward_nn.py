@@ -27,7 +27,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) ->
     shape_model.eval()
     y_pred = shape_model(x_test)
     before_train = criterion(y_pred.squeeze(), y_test)
-    print('Test loss before training', before_train.item())
+    print('Test loss before training', before_train.item()/(len(x_test)))
 
     collect_train_pred = []
 
@@ -41,7 +41,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) ->
         # Compute Loss
         loss = criterion(y_train_pred.squeeze(), y_train)
     
-        print('Epoch {}: train loss: {}'.format(epoch, loss.item()))
+        print('Epoch {}: train loss: {}'.format(epoch, loss.item()/num_of_train))
         # Backward pass
         loss.backward()
         optimizer.step()
@@ -50,7 +50,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) ->
     shape_model.eval()
     y_test_pred = shape_model(x_test)
     after_train = criterion(y_test_pred.squeeze(), y_test) 
-    print('Test loss after Training' , after_train.item())
+    print('Test loss after Training' , after_train.item()/(len(x_test)))
 
     for i in range(len(collect_train_pred)):
         data_epoch = collect_train_pred[i].tolist()
