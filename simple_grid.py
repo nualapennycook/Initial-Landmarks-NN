@@ -11,7 +11,7 @@ def main():
     # x_data = [[0.25, 0.25], [0.25, 0.75], [0.75, 0.25], [0.75, 0.75], [0.5, 0.5]]
     # y_data = [[0.2, 0.2], [0.2, 0.7], [0.7, 0.2], [0.7, 0.7], [0.1, 0.1]]
     x_data = [[0.25, 0.25], [0.25, 0.75], [0.75, 0.25], [0.75, 0.75]]
-    y_data = [[0.25, 0.3], [0.2, 0.6], [0.3, 0.25], [0.5, 0.5]]
+    y_data = [[0.2, 0.2], [0.2, 0.8], [0.8, 0.2], [0.8, 0.8]]
 
     grid_points_x = [1/(grid_resolution-1)*i for i in range(grid_resolution)]
     grid_points_y = grid_points_x.copy()
@@ -31,7 +31,7 @@ def main():
     # Initialising the FeedFoward neural network from the class definition
     shape_model = Feedforward(2, hidden_size=300)
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(shape_model.parameters(), lr=0.01)
+    optimizer = torch.optim.SGD(shape_model.parameters(), lr=0.01)
 
     x_train = torch.FloatTensor(x_data)
     y_train = torch.FloatTensor(y_data)
@@ -85,7 +85,7 @@ def main():
 
     writervideo = PillowWriter(fps = 10)
         
-    anim.save('animations/warped_grid.gif', 
+    anim.save('animations/simple_grid.gif', 
             writer = writervideo)
 
 if __name__ == '__main__':
