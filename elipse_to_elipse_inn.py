@@ -1,6 +1,6 @@
 from shape_nn.register_shape_data import RegisterShapeData
 from shape_nn.rotate_shape import rotate_shape
-from shape_nn.training_feed_forward_nn import train_network
+from shape_nn.training_invertible_nn import train_network
 import matplotlib.pyplot as plt
 
 def main():
@@ -44,7 +44,7 @@ def main():
     plt.plot(plotting_y_data[0], plotting_y_data[1], marker='x')
     for i in range(len(reshaped_y_pred[0])):
         plt.plot([plotting_y_data[0][i], reshaped_y_pred[0][i]], [plotting_y_data[1][i], reshaped_y_pred[1][i]], color='y')
-    plt.legend(['Target Shape', 'Template Shape', 'Mapped Template Shape'])
+
     plt.show()
 
 if __name__ == '__main__':

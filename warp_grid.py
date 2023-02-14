@@ -23,10 +23,12 @@ def main():
 
     plotting_x_data = [[x_data[i][0] for i in range(len(x_data))], [x_data[i][1] for i in range(len(x_data))]]
     plotting_y_data = [[y_data[i][0] for i in range(len(y_data))], [y_data[i][1] for i in range(len(y_data))]]
-
+    
+    plt.plot(plotting_y_data[0], plotting_y_data[1], 'o', color='b')
+    plt.plot(plotting_x_data[0], plotting_x_data[1], 'o', color='r')
     plt.plot(plotting_grid_points_x, plotting_grid_points_y, '.', color='k', markersize=0.8)
-    plt.plot(plotting_x_data[0], plotting_x_data[1], 'o')
-    plt.plot(plotting_y_data[0], plotting_y_data[1], 'o')
+    plt.legend(['target points', 'landmarks', '$\phi$ applied to evenly spaced mesh'], loc='upper right')
+    plt.show()
 
     # Initialising the FeedFoward neural network from the class definition
     shape_model = Feedforward(2, hidden_size=300)
@@ -73,7 +75,7 @@ def main():
     # ax.set_ylim([0, 0.8]) 
     line1, = ax.plot(plotting_x_data[0], plotting_x_data[1], 'o', color='r')
     line2, = ax.plot(plotting_grid_points_x, plotting_grid_points_y, '.', color='k', markersize=0.8)
-    ax.legend(['target points', '$\phi$ applied to reference points', '$\phi$ applied to evenly spaced mesh'], loc='upper right')
+    ax.legend(['target points', '$\phi$ applied to landmarks', '$\phi$ applied to evenly spaced mesh'], loc='upper right')
 
     def animate_shape(i):
         line1.set_data(collect_train_pred[i][0], collect_train_pred[i][1])
