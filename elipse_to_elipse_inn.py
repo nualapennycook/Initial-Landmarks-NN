@@ -39,12 +39,12 @@ def main():
 
     # Plotting the data
     fig, ax = plt.subplots()
-    plt.plot(reshaped_y_pred[0], reshaped_y_pred[1], marker='x')
-    plt.plot(plotting_x_data[0], plotting_x_data[1], marker='x')
     plt.plot(plotting_y_data[0], plotting_y_data[1], marker='x')
+    plt.plot(plotting_x_data[0], plotting_x_data[1], marker='x')
+    plt.plot(reshaped_y_pred[0], reshaped_y_pred[1], marker='x')
     for i in range(len(reshaped_y_pred[0])):
         plt.plot([plotting_y_data[0][i], reshaped_y_pred[0][i]], [plotting_y_data[1][i], reshaped_y_pred[1][i]], color='y')
-
+    plt.legend(['Target Shape', 'Template Shape', 'Mapped Template Shape'])
     plt.show()
 
 if __name__ == '__main__':
