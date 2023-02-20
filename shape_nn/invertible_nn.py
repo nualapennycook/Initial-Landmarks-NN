@@ -7,6 +7,8 @@ import FrEIA.modules as Fm
 class Invertible(torch.nn.Module):
     '''
     This class defines the basic structure of an invertible neural network using FrEIA.
+    The neural network is structured in blocks of simple subnetworks.
+    The network can also be traversed backwards using an additional argument when the network is called.
     '''
 
     def __init__(self, input_size: int, hidden_size: int, number_of_blocks: int):

@@ -2,7 +2,19 @@ from shape_nn.invertible_nn import Invertible
 from typing import List
 import torch
 
-def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) -> List:
+def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, number_of_blocks = 2, learning_rate=0.01) -> List:
+    '''
+    Function to train an invertible neural network on a data set. 
+    Takes data as input, and trains and tests on the set.
+    Calls invertible_nn to implement the invertible neural network for the training.
+    :param x_data: List, The independent variables, i.e. the data to input to the network.
+    :param y_data: List, The dependent variables, i.e. the data to compare the network output to.
+    :param epoch: int, The number of training epochs (loops).
+    :param hidden_size: int, The number of neurons in the hidden layers of the network.
+    :param number_of_blocks: int, The number of subnetwork blocks of the invertible neural network.
+    :param learning_rate: float, learning rate of the algorithm.
+    :out: List, output data points, prediction values from the neural network for y values.
+    '''
 
     # Splitting the data into test and train sets
     # ~80% data for training and ~20% for testing
@@ -19,12 +31,14 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) ->
     y_test = torch.FloatTensor(y_test)
 
     # Initialising the Invertible neural network from the class definition
-    shape_model = Invertible(2, hidden_size=hidden_size, number_of_blocks=2)
+    shape_model = Invertible(2, hidden_size=hidden_size, number_of_blocks=number_of_blocks)
     shape_model.initialise_inn()
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(shape_model.inn.parameters(), lr=0.01)
+    optimizer = torch.optim.Adam(shape_model.inn.parameters(), lr=learning_rate)
 
     # Testing the model performance before training
+    # Output of the inn is a tuple of tensors, the latter being the log of the jacobian determinant
+    # We don't have a use for it, so it is dumped
     y_pred, dump = shape_model.inn(x_test)
     before_train = criterion(y_pred.squeeze(), y_test)
     print('Test loss before training', before_train.item()/(len(x_test)))
@@ -48,6 +62,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) ->
 
     # Performance after training
     shape_model.eval()
+    # Dump unused output
     y_test_pred, dump = shape_model.inn(x_test)
     after_train = criterion(y_test_pred.squeeze(), y_test) 
     print('Test loss after Training' , after_train.item()/(len(x_test)))
