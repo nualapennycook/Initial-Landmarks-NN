@@ -19,7 +19,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) ->
     y_test = torch.FloatTensor(y_test)
 
     # Initialising the Invertible neural network from the class definition
-    shape_model = Invertible(2, hidden_size=hidden_size)
+    shape_model = Invertible(2, hidden_size=hidden_size, number_of_blocks=2)
     shape_model.initialise_inn()
     criterion = torch.nn.MSELoss()
     optimizer = torch.optim.Adam(shape_model.inn.parameters(), lr=0.01)
