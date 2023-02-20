@@ -2,7 +2,18 @@ from shape_nn.feed_forward_nn import Feedforward
 from typing import List
 import torch
 
-def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) -> List:
+def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, learning_rate=0.01) -> List:
+    '''
+    Function to train a neural network on a data set. 
+    Takes data as input, and trains and tests on the set.
+    Calls invertible_nn to implement the invertible neural network for the training.
+    :param x_data: List, The independent variables, i.e. the data to input to the network.
+    :param y_data: List, The dependent variables, i.e. the data to compare the network output to.
+    :param epoch: int, The number of training epochs (loops).
+    :param hidden_size: int, The number of neurons in the hidden layers of the network.
+    :param learning_rate: float, learning rate of the algorithm.
+    :out: List, output data points, prediction values from the neural network for y values.
+    '''
 
     # Splitting the data into test and train sets
     # ~80% data for training and ~20% for testing
@@ -21,7 +32,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300) ->
     # Initialising the FeedFoward neural network from the class definition
     shape_model = Feedforward(2, hidden_size=hidden_size)
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.RMSprop(shape_model.parameters(), lr=0.01)
+    optimizer = torch.optim.RMSprop(shape_model.parameters(), lr=learning_rate)
 
     # Testing the model performance before training
     shape_model.eval()
