@@ -18,11 +18,23 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
 
     # Splitting the data into test and train sets
     # ~80% data for training and ~20% for testing
-    num_of_train = int(0.8*len(x_data))
-    x_train = x_data[:num_of_train]
-    x_test = x_data[num_of_train:]
-    y_train = y_data[:num_of_train]
-    y_test = y_data[num_of_train:]
+    num_of_test = int(len(x_data)/10)
+    num_of_train = len(x_data) - num_of_test
+    x_train = []
+    x_test = []
+    y_train = []
+    y_test = []
+    for i in range(num_of_test):
+        x_test += [x_data[i*10]]
+        x_train += x_data[i*10+1:(i+1)*10]
+        y_test += [y_data[i*10]]
+        y_train += y_data[i*10+1:(i+1)*10]
+
+    training_landmarks = y_train
+    # x_train = x_data[:num_of_train]
+    # x_test = x_data[num_of_train:]
+    # y_train = y_data[:num_of_train]
+    # y_test = y_data[num_of_train:]
 
     # Now convert x and y to pytorch tensors
     x_train = torch.FloatTensor(x_train)
@@ -41,7 +53,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
     # We don't have a use for it, so it is dumped
     y_pred, dump = shape_model.inn(x_test)
     before_train = criterion(y_pred.squeeze(), y_test)
-    print('Test loss before training', before_train.item()/(len(x_test)))
+    print('Test loss before training', before_train.item()/(num_of_test))
 
     collect_train_pred = []
 
@@ -55,7 +67,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
         # Compute Loss
         loss = criterion(y_train_pred.squeeze(), y_train)
     
-        print('Epoch {}: train loss: {}'.format(epoch, loss.item()/num_of_train))
+        print('Epoch {}: train loss: {}'.format(epoch, loss.item()/num_of_train ))
         # Backward pass
         loss.backward()
         optimizer.step()
@@ -67,9 +79,13 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
     after_train = criterion(y_test_pred.squeeze(), y_test) 
     print('Test loss after Training' , after_train.item()/(len(x_test)))
 
-    for i in range(len(collect_train_pred)):
-        data_epoch = collect_train_pred[i].tolist()
-        collect_train_pred[i] = [[data_epoch[i][0] for i in range(num_of_train)], [data_epoch[i][1] for i in range(num_of_train)]]
+    # Converting the translated training points from a tensor to a list to output
+    for j in range(len(collect_train_pred)):
+        data_epoch = collect_train_pred[j].tolist()
+        collect_train_pred[j] = [[data_epoch[i][0] for i in range(num_of_train)], [data_epoch[i][1] for i in range(num_of_train)]]
 
-    return collect_train_pred
+    y_test_pred = y_test_pred.tolist()
+    y_test_pred = [[y_test_pred[i][0] for i in range(num_of_test)], [y_test_pred[i][1] for i in range(num_of_test)]]
+
+    return training_landmarks, collect_train_pred, y_test_pred
 
