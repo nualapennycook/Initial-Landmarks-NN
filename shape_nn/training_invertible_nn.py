@@ -46,7 +46,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
     shape_model = Invertible(2, hidden_size=hidden_size, number_of_blocks=number_of_blocks)
     shape_model.initialise_inn()
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(shape_model.inn.parameters(), lr=learning_rate)
+    optimizer = torch.optim.Rprop(shape_model.inn.parameters(), lr=learning_rate)
 
     # Testing the model performance before training
     # Output of the inn is a tuple of tensors, the latter being the log of the jacobian determinant

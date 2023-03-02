@@ -36,7 +36,7 @@ def main():
     plotting_y_data = [[y_data[i][0] for i in range(reduction)], [y_data[i][1] for i in range(reduction)]]
     plotting_y_landmarks = [[y_landmarks[i][0] for i in range(len(y_landmarks))], [y_landmarks[i][1] for i in range(len(y_landmarks))]]
 
-    reshaped_y_pred = warped_x_data[-1]
+    reshaped_y_pred = warped_x_data[0]
 
     # Plotting the data
     fig, ax = plt.subplots()

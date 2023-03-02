@@ -1,6 +1,7 @@
 import torch
 
 # FrEIA imports
+
 import FrEIA.framework as Ff
 import FrEIA.modules as Fm
 
@@ -27,7 +28,7 @@ class Invertible(torch.nn.Module):
     def initialise_inn(self):
         self.inn = Ff.SequenceINN(self.input_size)
         for k in range(self.number_of_blocks):
-            self.inn.append(Fm.AllInOneBlock, subnet_constructor=self.subnet_fc, permute_soft=True)
+            self.inn.append(Fm.AllInOneBlock, subnet_constructor=self.subnet_fc, permute_soft=False)
         
         return
 
