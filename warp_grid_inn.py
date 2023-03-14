@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import torch
 from matplotlib.animation import FuncAnimation, PillowWriter
 
-grid_resolution = 20
+grid_resolution = 10
 
 
 def main():
-    epoch = 2000
+    epoch = 10000
     # x_data = [[0.25, 0.25], [0.25, 0.75], [0.75, 0.25], [0.75, 0.75], [0.5, 0.5]]
     # y_data = [[0.2, 0.2], [0.2, 0.7], [0.7, 0.2], [0.7, 0.7], [0.1, 0.1]]
     x_data = [[0.25, 0.25], [0.25, 0.75], [0.75, 0.25], [0.75, 0.75]]
@@ -24,17 +24,17 @@ def main():
     plotting_x_data = [[x_data[i][0] for i in range(len(x_data))], [x_data[i][1] for i in range(len(x_data))]]
     plotting_y_data = [[y_data[i][0] for i in range(len(y_data))], [y_data[i][1] for i in range(len(y_data))]]
     
-    plt.plot(plotting_y_data[0], plotting_y_data[1], 'o', color='b')
-    plt.plot(plotting_x_data[0], plotting_x_data[1], 'o', color='r')
-    plt.plot(plotting_grid_points_x, plotting_grid_points_y, '.', color='k', markersize=0.8)
-    plt.legend(['target points', 'landmarks', '$\phi$ applied to evenly spaced mesh'], loc='upper right')
-    plt.show()
+    # plt.plot(plotting_y_data[0], plotting_y_data[1], 'o', color='b')
+    # plt.plot(plotting_x_data[0], plotting_x_data[1], 'o', color='r')
+    # plt.plot(plotting_grid_points_x, plotting_grid_points_y, '.', color='k', markersize=0.8)
+    # plt.legend(['target points', 'landmarks', '$\phi$ applied to evenly spaced mesh'], loc='upper right')
+    # plt.show()
 
     # Initialising the FeedFoward neural network from the class definition
-    shape_model = Invertible(2, hidden_size=300, number_of_blocks=2)
+    shape_model = Invertible(2, hidden_size=50, number_of_blocks=2)
     shape_model.initialise_inn()
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(shape_model.parameters(), lr=0.01)
+    optimizer = torch.optim.Adam(shape_model.parameters(), lr=0.05)
 
     x_train = torch.FloatTensor(x_data)
     y_train = torch.FloatTensor(y_data)
@@ -86,7 +86,7 @@ def main():
     anim = FuncAnimation(fig, animate_shape,
                         frames = epoch, interval = 20, blit = True)
 
-    writervideo = PillowWriter(fps = 10)
+    writervideo = PillowWriter(fps = 100)
         
     anim.save('animations/warped_grid_inn.gif', 
             writer = writervideo)
