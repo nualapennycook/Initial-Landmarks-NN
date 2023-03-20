@@ -18,15 +18,6 @@ def compute_loss(epoch):
 
     grid_points = [[plotting_grid_points_x[i], plotting_grid_points_y[i]] for i in range(len(plotting_grid_points_x))]
 
-    plotting_x_data = [[x_data[i][0] for i in range(len(x_data))], [x_data[i][1] for i in range(len(x_data))]]
-    plotting_y_data = [[y_data[i][0] for i in range(len(y_data))], [y_data[i][1] for i in range(len(y_data))]]
-    
-    plt.plot(plotting_y_data[0], plotting_y_data[1], 'o', color='b')
-    plt.plot(plotting_x_data[0], plotting_x_data[1], 'o', color='r')
-    plt.plot(plotting_grid_points_x, plotting_grid_points_y, '.', color='k', markersize=0.8)
-    plt.legend(['target points', 'landmarks', '$\phi$ applied to evenly spaced mesh'], loc='upper right')
-    plt.show()
-
     # Initialising the FeedFoward neural network from the class definition
     shape_model = Feedforward(2, hidden_size=300)
     criterion = torch.nn.MSELoss()
