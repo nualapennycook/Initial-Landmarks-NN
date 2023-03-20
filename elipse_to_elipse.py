@@ -30,10 +30,12 @@ def main():
     y_data = [y_data[i*skip_step] for i in range(reduction)]
 
     # Training the neural network
-    warped_x_data = train_network(x_data=x_data, y_data=y_data, epoch=1000, learning_rate=0.01)
+    y_landmarks, warped_x_data, warped_test_data, [train_loss, test_loss] = train_network(x_data=x_data, y_data=y_data, epoch=1000, learning_rate=0.01)
 
     plotting_x_data = [[x_data[i][0] for i in range(reduction)], [x_data[i][1] for i in range(reduction)]]
     plotting_y_data = [[y_data[i][0] for i in range(reduction)], [y_data[i][1] for i in range(reduction)]]
+    plotting_y_landmarks = [[y_landmarks[i][0] for i in range(len(y_landmarks))], [y_landmarks[i][1] for i in range(len(y_landmarks))]]
+
 
     reshaped_y_pred = warped_x_data[-1]
 
@@ -42,8 +44,9 @@ def main():
     plt.plot(plotting_y_data[0], plotting_y_data[1], marker='x')
     plt.plot(plotting_x_data[0], plotting_x_data[1], marker='x')
     plt.plot(reshaped_y_pred[0], reshaped_y_pred[1], marker='x')
+    plt.plot(warped_test_data[0], warped_test_data[1], marker='x', linestyle='None')
     for i in range(len(reshaped_y_pred[0])):
-        plt.plot([plotting_y_data[0][i], reshaped_y_pred[0][i]], [plotting_y_data[1][i], reshaped_y_pred[1][i]], color='y')
+        plt.plot([plotting_y_landmarks[0][i], reshaped_y_pred[0][i]], [plotting_y_landmarks[1][i], reshaped_y_pred[1][i]], color='y')
     plt.legend(['Target Shape', 'Template Shape', 'Mapped Template Shape'])
     plt.show()
 

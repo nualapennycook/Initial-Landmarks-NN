@@ -37,7 +37,7 @@ def main():
     y_data = [y_data[i*skip_step] for i in range(reduction)]
 
     # Training the neural network
-    warped_x_data = train_network(x_data=x_data, y_data=y_data, epoch=epoch)
+    training_landmarks, warped_x_data, y_test_pred, [train_loss, test_loss] = train_network(x_data=x_data, y_data=y_data, epoch=epoch)
 
     plotting_x_data = [[x_data[i][0] for i in range(reduction)], [x_data[i][1] for i in range(reduction)]]
     plotting_y_data = [[y_data[i][0] for i in range(reduction)], [y_data[i][1] for i in range(reduction)]]
