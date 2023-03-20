@@ -31,16 +31,29 @@ def compare_inn_nn(epoch, hidden_size, learning_rate):
     y_data = [y_data[i*skip_step] for i in range(reduction)]
 
     # Training the neural network
-    warped_x_data = train_network(x_data=x_data, y_data=y_data, epoch=epoch, hidden_size = hidden_size, learning_rate=learning_rate)
-    warped_inn_x_data = train_inn_network(x_data=x_data, y_data=y_data, epoch=epoch, hidden_size=hidden_size, number_of_blocks=2, learning_rate=learning_rate)
+    y_landmarks, warped_x_data, warped_test_data, [train_loss, test_loss] = train_network(x_data=x_data, y_data=y_data, epoch=epoch, hidden_size = hidden_size, learning_rate=learning_rate)
+    y_landmarks, warped_inn_x_data, warped_inn_test_data, [train_inn_loss, test_inn_loss] = train_inn_network(x_data=x_data, y_data=y_data, epoch=epoch, hidden_size=hidden_size, number_of_blocks=1, learning_rate=learning_rate)
 
-    plotting_x_data = [[x_data[i][0] for i in range(reduction)], [x_data[i][1] for i in range(reduction)]]
-    plotting_y_data = [[y_data[i][0] for i in range(reduction)], [y_data[i][1] for i in range(reduction)]]
+    return train_loss, train_inn_loss, test_loss, test_inn_loss
 
-    reshaped_y_pred = warped_x_data[-1]
-    reshaped_inn_y_pred = warped_inn_x_data[-1]
+    # Comparing effect of number of epochs
+number_of_epochs = [100, 500, 1000, 1500, 2000]
+collect_train_loss = [0 for epoch in number_of_epochs]
+collect_train_inn_loss = [0 for epoch in number_of_epochs]
+collect_test_loss = [0 for epoch in number_of_epochs]
+collect_test_inn_loss = [0 for epoch in number_of_epochs]
 
-    return [reshaped_y_pred, reshaped_inn_y_pred]
+for i in range(len(number_of_epochs)):
+
+    collect_train_loss[i], collect_train_inn_loss[i], collect_test_loss[i], collect_test_inn_loss[i] = compare_inn_nn(epoch = number_of_epochs[i], hidden_size=200, learning_rate=0.01)
+
+fig, ax = plt.subplots()
+plt.plot(number_of_epochs, collect_train_loss)
+plt.plot(number_of_epochs, collect_train_inn_loss)
+plt.plot(number_of_epochs, collect_test_loss)
+plt.plot(number_of_epochs, collect_test_inn_loss)
+plt.legend(['Train loss:ffnn', 'Train loss: inn', 'Test loss: ffnn', 'Test loss: inn'])
+plt.show()
 
     # # Plotting the data
     # fig, ax = plt.subplots()
