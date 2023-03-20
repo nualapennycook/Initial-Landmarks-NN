@@ -111,7 +111,7 @@ def main():
     for i in range(len(number_of_epochs)):
         train_loss[i] = compute_loss(number_of_epochs[i])
         train_inn_loss[i] = compute_inn_loss(number_of_epochs[i])
-    fig, ax = plt.subplot
+    fig, ax = plt.subplots()
     plt.plot(number_of_epochs, train_loss)
     plt.plot(number_of_epochs, train_inn_loss)
     plt.legend(['Feed forward loss', 'Invertible loss'])
