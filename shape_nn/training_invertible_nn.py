@@ -18,6 +18,7 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
 
     # Splitting the data into test and train sets
     # ~80% data for training and ~20% for testing
+    # Choosing test points evenly through the data points
     num_of_test = int(len(x_data)/10)
     num_of_train = len(x_data) - num_of_test
     x_train = []
@@ -31,10 +32,6 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
         y_train += y_data[i*10+1:(i+1)*10]
 
     training_landmarks = y_train
-    # x_train = x_data[:num_of_train]
-    # x_test = x_data[num_of_train:]
-    # y_train = y_data[:num_of_train]
-    # y_test = y_data[num_of_train:]
 
     # Now convert x and y to pytorch tensors
     x_train = torch.FloatTensor(x_train)
@@ -67,7 +64,8 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
         # Compute Loss
         loss = criterion(y_train_pred.squeeze(), y_train)
     
-        print('Epoch {}: train loss: {}'.format(epoch, loss.item()/num_of_train ))
+        train_loss = loss.item()/num_of_train
+        print('Epoch {}: train loss: {}'.format(epoch, train_loss))
         # Backward pass
         loss.backward()
         optimizer.step()
@@ -77,15 +75,17 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, nu
     # Dump unused output
     y_test_pred, dump = shape_model.inn(x_test)
     after_train = criterion(y_test_pred.squeeze(), y_test) 
-    print('Test loss after Training' , after_train.item()/(len(x_test)))
+    test_loss = after_train.item()/(len(x_test))
+    print('Test loss after Training' , test_loss)
 
     # Converting the translated training points from a tensor to a list to output
     for j in range(len(collect_train_pred)):
         data_epoch = collect_train_pred[j].tolist()
         collect_train_pred[j] = [[data_epoch[i][0] for i in range(num_of_train)], [data_epoch[i][1] for i in range(num_of_train)]]
 
+    # Translated test points
     y_test_pred = y_test_pred.tolist()
     y_test_pred = [[y_test_pred[i][0] for i in range(num_of_test)], [y_test_pred[i][1] for i in range(num_of_test)]]
 
-    return training_landmarks, collect_train_pred, y_test_pred
+    return training_landmarks, collect_train_pred, y_test_pred, [train_loss, test_loss]
 
