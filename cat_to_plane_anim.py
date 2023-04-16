@@ -37,7 +37,7 @@ def main():
     x_data = [x_data[i*skip_step] for i in range(reduction)]
     y_data = [y_data[i*skip_step] for i in range(reduction)]
 
-    # Training the neural network
+    # Training the neural network using a feedforward neural network
     training_landmarks, warped_x_data, y_test_pred, [train_loss, test_loss] = train_network(x_data=x_data, y_data=y_data, epoch=epoch)
 
     # Reshaping the output data back into separate list of x and y coordinates for plotting
@@ -49,6 +49,7 @@ def main():
     ax.plot(plotting_y_data[0], plotting_y_data[1], marker = 'x')
     line, = ax.plot(plotting_x_data[0], plotting_x_data[1])
     ax.legend(['initial shape', 'target shape', 'result of NN'])
+    ax.set_title('Image Registration of a Cat to a Plane')
 
     # Animation to plot the image registration model for each epoch of the neural network
     def animate_shape(i):
