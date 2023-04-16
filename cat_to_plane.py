@@ -53,7 +53,7 @@ def main():
     plt.plot(plotting_y_data[0], plotting_y_data[1], marker='x')
     for i in range(len(reshaped_y_pred[0])):
         plt.plot([plotting_y_landmarks[0][i], reshaped_y_pred[0][i]], [plotting_y_landmarks[1][i], reshaped_y_pred[1][i]], color='y')
-
+    plt.title('Image Registration of a Cat to a Plane')
     plt.show()
 
 if __name__ == '__main__':
