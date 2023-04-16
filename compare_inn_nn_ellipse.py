@@ -73,7 +73,7 @@ def main():
     plt.plot(number_of_epochs, collect_test_inn_loss)
     plt.legend(['Train loss:ffnn', 'Train loss: inn', 'Test loss: ffnn', 'Test loss: inn'])
     plt.title('Ellipse Feedforward and Invertible NN Registration Error')
-    plt.savefig('animations/compare_ellipse_loss.png')
+    plt.savefig('plots/compare_ellipse_loss.png')
     plt.show()
 
 if __name__ == '__main__':
