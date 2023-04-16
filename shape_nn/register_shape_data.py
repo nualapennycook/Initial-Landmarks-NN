@@ -1,9 +1,11 @@
-'''
-Class to read in shape data from text files.
-'''
 class RegisterShapeData:
+    '''
+    Class to extract landmark data from .txt data files in shape_landmark_data.
+    Also performs rigid registrations on the landmark data to centre and scale shape data.
+    '''
 
     def __init__(self, path_to_shape_data) -> None:
+        # Initialising the attributes of the class
         self.path_to_shape_data = path_to_shape_data
         self.shape_data = []
 
@@ -63,13 +65,19 @@ class RegisterShapeData:
         return
 
     def scale_shape(self) -> None:
+        '''
+        Method to scale centred shape data to mean of 1.
+        '''
+        # If not first centred raise error.
         if self.centred_shape_data == []:
             raise ValueError("Data not yet centred, please call self.centre_shape method first.")
         else:
+            # Find mean distance of points from origin
             squared_coords = [coord**2 for coord in self.centred_shape_data[0] and self.centred_shape_data[1]]
 
             scale_param = (sum(squared_coords))**(1/2)/self.num_of_points
 
+            # Scale each point by dividing by mean
             self.centred_scaled_data = [[coord/scale_param for coord in self.centred_shape_data[0]], [coord/scale_param for coord in self.centred_shape_data[1]]]
 
         return

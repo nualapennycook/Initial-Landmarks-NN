@@ -12,11 +12,11 @@ def train_network(x_data = List, y_data = List, epoch = int, hidden_size=300, le
     :param epoch: int, The number of training epochs (loops).
     :param hidden_size: int, The number of neurons in the hidden layers of the network.
     :param learning_rate: float, learning rate of the algorithm.
-    :out: List, output data points, prediction values from the neural network for y values.
+    :out: Training landmarks, list of the training results from each training epoch, test landmarks, and the training loss and test loss.
     '''
 
     # Splitting the data into test and train sets
-    # ~80% data for training and ~20% for testing
+    # ~90% data for training and ~10% for testing
     # Choosing test points evenly through the data points
     num_of_test = int(len(x_data)/10)
     num_of_train = len(x_data) - num_of_test

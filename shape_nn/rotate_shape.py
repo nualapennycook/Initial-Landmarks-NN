@@ -4,7 +4,7 @@ from typing import List
 def rotate_shape(rotate_data: List, fixed_data: List) -> List:
     '''
     Function to rotate one set of shape data to minimise the distance beween points of another
-    set of shape data.
+    set of shape data. See Orthogonal Procrustes Problem.
     :param rotate_data: List,  The data to be rotated in the form of a list of x coordinates
     and a list of y coordinates.
     :param fixed_data: List, The fixed data to rotate the shape to in order to minimise the

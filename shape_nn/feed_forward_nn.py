@@ -3,7 +3,7 @@ import torch
 class Feedforward(torch.nn.Module):
     '''
     This class defines the basic structure of the pytorch neural network.
-    This feed forward neural network has one hidden layer.
+    This feed forward neural network with a specified number of hidden layers.
     This class is taken and modified from: https://medium.com/biaslyai/pytorch-introduction-to-neural-network-feedforward-neural-network-model-e7231cff47cb.
     '''
 
@@ -12,16 +12,21 @@ class Feedforward(torch.nn.Module):
         :param input_size: number of neurons of the input layer.
         :param hidden_size: number of neurons in the hidden layer.
         '''
+        # Inherits from Pytorch Feedforward class
         super(Feedforward, self).__init__()
         self.input_size = input_size
         self.hidden_size  = hidden_size
+
+        # Initialising structure of neural network layers
         self.fc1 = torch.nn.Linear(self.input_size, self.hidden_size)
         self.w = torch.empty(self.input_size, self.hidden_size)
         torch.nn.init.eye_(self.w)
         self.fc15 = torch.nn.Linear(self.hidden_size, self.hidden_size)
         self.fc15.weight.data.copy_(torch.eye(self.hidden_size))
+
+        # Defining activation function 
         self.tanh = torch.nn.Tanh()
-        self.relu = torch.nn.ReLU()
+
         # Defining the output size of the output 
         self.fc2 = torch.nn.Linear(self.hidden_size, self.input_size)
         self.sigmoid = torch.nn.Sigmoid()
