@@ -11,6 +11,12 @@ Produces a plot comparing the test and training losses for feedforward and inver
 '''
 
 def compare_inn_nn(epoch, hidden_size, learning_rate):
+    '''
+    Computes the test and training errors for both a feedforward and invertible neural network.
+    :param epoch: int, the number of epochs of the neural networks.
+    :param hidden_size: int, the number of hidden layers of the neural networks.
+    :param learning_rate: float, the learning rate of the neural networks.
+    '''
     # Firstly need to extract the training data from the text files
     input_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/ellipse2.txt')
     input_data.extract_shape_data()
@@ -44,7 +50,9 @@ def compare_inn_nn(epoch, hidden_size, learning_rate):
     return train_loss, train_inn_loss, test_loss, test_inn_loss
 
 def main():
-
+    '''
+    Plots the test and training error for the feedforward and invertible neural networks
+    '''
     # Comparing effect of number of epochs
     number_of_epochs = [100, 500, 1000, 1500, 2000]
     collect_train_loss = [0 for epoch in number_of_epochs]
