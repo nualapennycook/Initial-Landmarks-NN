@@ -3,15 +3,20 @@ from shape_nn.rotate_shape import rotate_shape
 from shape_nn.training_invertible_nn import train_network
 import matplotlib.pyplot as plt
 
+'''
+Image registration of a smaller ellipse to a larger ellipse using an invertible neural nework.
+Produces a plot of the final position of the registered shape in comparison to the target.
+'''
+
 def main():
     # Firstly need to extract the training data from the text files
     # We train the network for a set shape to another set shape
-    input_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/train_data/ellipse2.txt')
+    input_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/ellipse2.txt')
     input_data.extract_shape_data()
     input_data.centre_shape()
     input_data.scale_shape()
 
-    set_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/train_data/ellipse2.txt')
+    set_data = RegisterShapeData(path_to_shape_data='shape_landmark_data/ellipse2.txt')
     set_data.extract_shape_data()
     set_data.centre_shape()
     set_data.scale_shape()
@@ -48,6 +53,8 @@ def main():
     for i in range(len(reshaped_y_pred[0])):
         plt.plot([plotting_y_landmarks[0][i], reshaped_y_pred[0][i]], [plotting_y_landmarks[1][i], reshaped_y_pred[1][i]], color='y')
     plt.legend(['Target Shape', 'Template Shape', 'Mapped Template Shape: Train', 'Mapped Template Shape: Test'])
+    plt.title('Image Registration of an Ellipse using INNs')
+    plt.savefig('plots/ellipse_to_ellipse_inn.png')
     plt.show()
 
 if __name__ == '__main__':
