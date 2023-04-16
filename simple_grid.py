@@ -3,16 +3,27 @@ import matplotlib.pyplot as plt
 import torch
 from matplotlib.animation import FuncAnimation, PillowWriter
 
+'''
+Registration of a smaller square of landmark points to a larger square.
+Training points are 4 landmark points, 'test' points are the grid points.
+Returns an animation of the iterations of the feed forward neural network solving the image registration problem.
+'''
+
+# Initialising the dimensions of the grid
 grid_resolution = 20
 
-
 def main():
+    '''
+    Computes and plots the square to square image registration using a feedforward neural network.
+    '''
+    # Initialising the number of epochs of the neural network
     epoch = 1000
-    # x_data = [[0.25, 0.25], [0.25, 0.75], [0.75, 0.25], [0.75, 0.75], [0.5, 0.5]]
-    # y_data = [[0.2, 0.2], [0.2, 0.7], [0.7, 0.2], [0.7, 0.7], [0.1, 0.1]]
+
+    # Initialising the landmark points as vertices of squares
     x_data = [[0.25, 0.25], [0.25, 0.75], [0.75, 0.25], [0.75, 0.75]]
     y_data = [[0.2, 0.2], [0.2, 0.8], [0.8, 0.2], [0.8, 0.8]]
 
+    # Initialising the grid
     grid_points_x = [1/(grid_resolution-1)*i for i in range(grid_resolution)]
     grid_points_y = grid_points_x.copy()
 
@@ -24,6 +35,7 @@ def main():
     plotting_x_data = [[x_data[i][0] for i in range(len(x_data))], [x_data[i][1] for i in range(len(x_data))]]
     plotting_y_data = [[y_data[i][0] for i in range(len(y_data))], [y_data[i][1] for i in range(len(y_data))]]
 
+    # Plotting the target shape
     plt.plot(plotting_grid_points_x, plotting_grid_points_y, '.', color='k', markersize=0.8)
     plt.plot(plotting_x_data[0], plotting_x_data[1], 'o')
     plt.plot(plotting_y_data[0], plotting_y_data[1], 'o')
