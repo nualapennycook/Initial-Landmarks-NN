@@ -96,16 +96,17 @@ def compute_inn_loss(epoch):
     return train_loss
 
 def main():
-    number_of_epochs = [100, 500, 1000, 1500, 2000]
+    number_of_epochs = [25, 50, 100, 200, 400, 800, 1600, 3200, 6400]
     train_loss = [0 for epoch in number_of_epochs]
     train_inn_loss = [0 for epoch in number_of_epochs]
     for i in range(len(number_of_epochs)):
         train_loss[i] = compute_loss(number_of_epochs[i])
         train_inn_loss[i] = compute_inn_loss(number_of_epochs[i])
     fig, ax = plt.subplots()
-    plt.plot(number_of_epochs, train_loss)
-    plt.plot(number_of_epochs, train_inn_loss)
+    plt.loglog(number_of_epochs, train_loss)
+    plt.loglog(number_of_epochs, train_inn_loss)
     plt.legend(['Feed forward loss', 'Invertible loss'])
+    plt.title('Comparison of Convergence of Feed Forward and Invertible Neural Networks')
     plt.show()
 
 
