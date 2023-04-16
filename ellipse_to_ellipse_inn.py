@@ -24,19 +24,20 @@ def main():
     # Rotating the input data to the orientation of the set data
     x_data = rotate_shape(rotate_data=input_data.shape_data, fixed_data=set_data.shape_data)
 
-    # Reorgainising/reshaping the data into pairs
+    # Reshaping the data into coordinate pairs
     x_data = [[x_data[0][i], x_data[1][i]] for i in range(len(x_data[0]))]
     y_data = [[1.1*set_data.shape_data[0][i], 1.1*set_data.shape_data[1][i]] for i in range(len(set_data.shape_data[0]))]
 
-    # Reducing the number of landmarks
+    # Reducing the number of landmarks to reduce the problem size
     skip_step = 10
     reduction = int(len(x_data)/skip_step)
     x_data = [x_data[i*skip_step] for i in range(reduction)]
     y_data = [y_data[i*skip_step] for i in range(reduction)]
 
-    # Training the neural network
+    # Training the invertible neural network
     y_landmarks, warped_x_data, warped_test_data, [train_loss, test_loss] = train_network(x_data=x_data, y_data=y_data, epoch=1000, hidden_size=200, number_of_blocks=2, learning_rate=0.01)
 
+    # Reshaping the data for plotting
     plotting_x_data = [[x_data[i][0] for i in range(reduction)], [x_data[i][1] for i in range(reduction)]]
     plotting_y_data = [[y_data[i][0] for i in range(reduction)], [y_data[i][1] for i in range(reduction)]]
     plotting_y_landmarks = [[y_landmarks[i][0] for i in range(len(y_landmarks))], [y_landmarks[i][1] for i in range(len(y_landmarks))]]

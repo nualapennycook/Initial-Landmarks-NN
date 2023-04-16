@@ -1,26 +1,38 @@
-# Script to generate a plot showing the effect on convergence of changing parameters
-# Using the warp grid example with different inputs and optimisation conditions
-
-# comparing convergence using different gradient descent methods
-
 from shape_nn.feed_forward_nn import Feedforward
 import matplotlib.pyplot as plt
 import torch
 from matplotlib.animation import FuncAnimation, PillowWriter
 
+'''
+Compares convergence of the warp grid example using a feedforward neural network using different gradient descent methods.
+Plots the results of each registration for easy comparison.
+'''
+
+# Initialise the dimensions of the grid
 grid_resolution = 20
 
+# Initialise the format for the plots
 fig, axs = plt.subplots(2, 2)
 
 plot_spaces = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
+# The gradient descent methods used
 plot_titles = ['Resilient Backpropagation', 'RMSprop', 'Stochastic Gradient Descent', 'Adam']
 
 def main():
+    '''
+    Computes and plots the warp grid registrations for each gradient descent method
+    '''
     for grid_square in range(4):
+
+        # Initialising the number of epochs for the NN
         epoch = 100
+
+        # Initialising the landmark points for the registration problem
         x_data = [[0.25, 0.25], [0.25, 0.75], [0.75, 0.25], [0.75, 0.75]]
         y_data = [[0.25, 0.3], [0.2, 0.6], [0.3, 0.25], [0.5, 0.5]]
 
+        # Initialising the grid
         grid_points_x = [1/(grid_resolution-1)*i for i in range(grid_resolution)]
         grid_points_y = grid_points_x.copy()
 
@@ -46,6 +58,7 @@ def main():
         else:
             optimizer = torch.optim.Adam(shape_model.parameters(), lr=0.01)
 
+        # Start of the training 
         x_train = torch.FloatTensor(x_data)
         y_train = torch.FloatTensor(y_data)
         grid_tensor = torch.FloatTensor(grid_points)
@@ -84,11 +97,11 @@ def main():
         axs[plot_spaces[grid_square][0],plot_spaces[grid_square][1]].plot(collect_train_pred[-1][0], collect_train_pred[-1][0], 'o', color='r')
         axs[plot_spaces[grid_square][0],plot_spaces[grid_square][1]].plot(collect_warped_grid[-1][0], collect_warped_grid[-1][1], '.', color='k', markersize=0.8)
         axs[plot_spaces[grid_square][0],plot_spaces[grid_square][1]].set_title(plot_titles[grid_square])
-        # axs.legend(['target points', '$\phi$ applied to landmarks', '$\phi$ applied to evenly spaced mesh'], loc='upper right')
 
     for ax in axs.flat:
         ax.label_outer()
 
+    plt.savefig('plots/compare_gradient_descent.png')
     # show the plot once all spaces have been plotted
     plt.show()
 
