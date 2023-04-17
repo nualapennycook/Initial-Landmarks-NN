@@ -26,4 +26,4 @@ The dependencies for this project are:
 * All demos can be found in the main project folder and generate plots or animations. 
 * All the data required for these demos can be found in the file named 'shape_landmark_data'. 
 * Pre-generated plots and animations from the demos can be found in the files names 'plots' and 'animations' respectively.
-* The file named 'FrEIA' contains a slightly modified version of the FrEIA source code. This is to improve convergence for the specific application of invertible neural networks to the ellipse registration problem, and the registration more generally.
+* The file named 'FrEIA' contains a slightly modified version of the FrEIA source code. This is to improve convergence for the specific application of invertible neural networks to the ellipse registration problem, and registration problems using rigid alignments as a pre-processing step.
